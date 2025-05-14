@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "MetalOST": {
+      "commandName": "Project"
+    },
+    "Hollow Knight": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files (x86)\\Steam\\steam.exe",
+      "commandLineArgs": "-applaunch 367520",
+      "workingDirectory": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Hollow Knight"
+    }
+  }
+}
