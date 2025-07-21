@@ -2,19 +2,19 @@
 
 This mod changes all of the game’s soundtracks to fit a metal theme.
 
-WARNING: Due to the large amount of audio files, the game may take a few minutes to start, depending on your hardware. Windows can mistake this for hollow knight not responding, this is not true, so please have patience.
+DISCLAIMER: Due to the large amount of audio files, the game may take a few minutes to start, depending on your hardware. Windows can mistake this for hollow knight not responding, this is not true, so please have patience.
 
 ## Highlights
 
-- **Area Soundtracks**: Customised and layered audio gives the locations of Hallownest a guitar-driven makeover
+- **Area Soundtracks**: Customised and layered audio gives the locations of Hallownest a guitar-driven makeover.
 
-- **Boss fights**: Each boss has its own brutal, looping metal soundtrack
+- **Boss fights**: Each boss has its own brutal, looping metal soundtrack.
 
 - **Godhome**: With all of the different tracks working together, Godhome has become a place of true, attuned metal - along with a few secrets.
 
 - **Colosseum of Fools**: Fight waves of enemies with an amplified metal soundtrack.
 
-- **Sealed Vessel**: With over 10 different layers, this fight is extremely dynamic
+- **Sealed Vessel**: With over 10 different layers, this fight is extremely dynamic.
 
 - **Path of Pain and Abyss climb**: Overcome platforming challenges with sad yet intense metal music.
 
