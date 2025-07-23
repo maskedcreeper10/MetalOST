@@ -239,7 +239,7 @@ namespace MetalOST
             return new List<IMenuMod.MenuEntry>
             {
                 new IMenuMod.MenuEntry {
-                    Name = "Tracks to replace:",
+                    Name = "Metalify tracks:",
                     Description = "Changes which tracks the mod effects.",
                     Values = new string[] {
                         "All",
@@ -251,7 +251,7 @@ namespace MetalOST
                     Loader = () => GlobalSettingsData.TracksToPlay
                 },
                 new IMenuMod.MenuEntry {
-                    Name = "Change Dialogue",
+                    Name = "Metalify Dialogue",
                     Description = "Changes whether or not the mod changes certain dialogue.",
                     Values = new string[] {
                         "Off",
@@ -269,7 +269,7 @@ namespace MetalOST
                     }
                 },
                 new IMenuMod.MenuEntry {
-                    Name = "Change Endings",
+                    Name = "Metalify Endings",
                     Description = "Changes whether or not the mod turns the endings into metal.",
                     Values = new string[] {
                         "Off",
@@ -290,7 +290,7 @@ namespace MetalOST
         }
 
 
-        public override string GetVersion() => "1.0.0.0";
+        public override string GetVersion() => "1.0.0.1";
 
 
 
@@ -506,7 +506,7 @@ namespace MetalOST
                             possibleReplace = GetAudioOrNull(origAudio.name);
                         }
                     }
-                    else if (origAudio.name == "GG3_part_B2" && GetAudioOrNull(origAudio.name) != null) //Not in customBGM, date = 13-07-2025
+                    else if (origAudio.name == "GG3_part_B2" && GetAudioOrNull(origAudio.name) != null && PlayerData.instance.bossRushMode == false) //Not in customBGM, date = 13-07-2025
                     {
                         //During godtamer in godhome, both godhome and godtamer music play which sounds really weird, so here godhome music is being removed.
                         Log($"attempting to determine room for godtamer: {UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}");
