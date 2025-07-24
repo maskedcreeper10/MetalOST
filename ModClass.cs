@@ -23,7 +23,6 @@ namespace MetalOST
 
         public bool ToggleButtonInsideMenu => true;
         private readonly Assembly assembly = Assembly.GetExecutingAssembly();
-        private Dictionary<string, AudioClip> AudioCache = new Dictionary<string, AudioClip>();
         private readonly List<string> BossList = [
             "S82-122 Grimm Epic Layer",
             "Hollow Shade Music", 
@@ -209,7 +208,7 @@ namespace MetalOST
             {"Fungus3_50", ["gramaphone", "Safety (grammaphone)", "true"] },
             {"White_Palace_09", ["Nursery Music Player", "NurseryMusic", "false"] }
         };
-        private readonly string audiolocation = "MetalOST.Resources.AudioFiles.";
+        internal AssetBundle AudioAssetBundle = null;
 
         private void Hook()
         {
@@ -226,6 +225,19 @@ namespace MetalOST
         {
             Hook();
             instance = this;
+            using (Stream s = assembly.GetManifestResourceStream("MetalOST.Resources.Test.audioassetbundle"))
+            {
+                if (s != null)
+                {
+                    AudioAssetBundle = AssetBundle.LoadFromStream(s);
+                    if (AudioAssetBundle != null)
+                    {
+                        Log("audioassetbundle is not null");
+                    }
+                    else Log("Audioassetbundle IS null");
+                }
+                else Log("DIDNT FIND S");
+            }
         }
         public static GlobalSettings GlobalSettingsData { get; set; } = new GlobalSettings();
         public void OnLoadGlobal(GlobalSettings gs)
@@ -293,34 +305,13 @@ namespace MetalOST
         }
 
 
-        public override string GetVersion() => "1.0.0.1";
+        public override string GetVersion() => "1.1.0.0";
 
 
 
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
             Log("Initializing 1");
-            foreach (string audiofilelocation in assembly.GetManifestResourceNames())
-            {
-                if (audiofilelocation.StartsWith(audiolocation))
-                {
-                    string name = audiofilelocation.Substring(audiolocation.Length);
-                    name = name.Replace(".wav", "");
-                    if (name == "Title") Log("Skipping title");
-                    else
-                    {
-                        AudioClip clip = GetAudioClip(name);
-                        if (clip != null)
-                        {
-                            AudioCache.Add(name, clip);
-                        }
-                        else
-                        {
-                            Log("ERROR WITH INITIALIZING AUDIOFILES");
-                        }
-                    }
-                }
-            }
             Log("Initialized");
 
         }
@@ -328,7 +319,7 @@ namespace MetalOST
         private AudioClip GetAudioOrNull(string name)
         {
             //Handle which tracks are played setting
-            if (AudioCache.ContainsKey(name))
+            if (AudioAssetBundle.Contains(name))
             {
                 if (GlobalSettingsData.TracksToPlay == 1 && BossList.Contains(name) == false)
                 {
@@ -341,10 +332,10 @@ namespace MetalOST
                     return null;
                 }
                 if (GlobalSettingsData.TracksToPlay == 3) return null;
-                return AudioCache[name];
+                return AudioAssetBundle.LoadAsset<AudioClip>(name);
             }
             else
-            { 
+            {
                 return null;
             }
         }
@@ -486,13 +477,7 @@ namespace MetalOST
                 {
                     //Log($"Orignal audio name = {origAudio.name}");
                     AudioClip possibleReplace = null;
-                    if (origAudio.name == "Title" && AudioCache.ContainsKey("Title") == false) //Not in customBGM, date = 13-07-2025
-                    {
-                        AudioCache.Add("Title", GetAudioClip("Title")); 
-                        if (GetAudioOrNull("Title")) possibleReplace = GetAudioOrNull("Title");
-
-                    }
-                    else if (origAudio.name.Contains("S59-55 Final Stage") && GetAudioOrNull(origAudio.name) != null) //Not in custombgm, date = 20-07-2025
+                    if (origAudio.name.Contains("S59-55 Final Stage") && GetAudioOrNull(origAudio.name) != null) //Not in custombgm, date = 20-07-2025
                     {
                         if (GlobalSettingsData.TracksToPlay == 1 && PoPRooms.Contains(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToUpper()) == true )
                         {
@@ -555,30 +540,9 @@ namespace MetalOST
             return orig(self, musicCue, delayTime, transitionTime, applySnapshot);
         }
 
-        //Next func from customBGM, date = 13-07-2025
-        private AudioClip GetAudioClip(string origName)
-        {
-            var filefinder = audiolocation + origName + ".wav";
-
-            Stream STREAM = assembly.GetManifestResourceStream(filefinder);
-            if (STREAM != null)
-            {
-                WavData.Inspect(STREAM, null);
-                WavData wavData = new WavData();
-                wavData.Parse(STREAM, null);
-                STREAM.Close();
-                float[] wavSoundData = wavData.GetSamples();
-                AudioClip audioClip = AudioClip.Create(origName, wavSoundData.Length / wavData.FormatChunk.NumChannels, wavData.FormatChunk.NumChannels, (int)wavData.FormatChunk.SampleRate, false);
-                audioClip.SetData(wavSoundData, 0);
-                return audioClip;
-            }
-
-            Log($"Error making audioclip for: {origName}");
-            return null;
-        }
         private string ModHooks_LanguageGetHook(string key, string sheetTitle, string orig)
         {
-            Log($"found dialogue: {{\"{key}\", [\"{orig}]\", \"\"]}}");
+            //Log($"found dialogue: {{\"{key}\", [\"{orig}]\", \"\"]}}");
             if (GlobalSettingsData.DoReplaceText)
             {
                 if (SteelSoulcustomDialogue.ContainsKey(key) && PlayerData.instance.GetInt("permadeathMode") == 1)
