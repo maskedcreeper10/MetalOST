@@ -146,6 +146,9 @@ namespace MetalOST
             //Misc
             {"PLAQUE_WARN", ["To witness secrets sealed, one must endure the harshest punishment.", "To witness melodies tuned, one must complete the fractured harmony."]},
             {"KING_FINAL_WORDS", ["...Soul of Wyrm. Soul of Root. Heart of Void...", "...Soul of Wyrm. Soul of Root. Heart of Void... <br> ...Heart of Metal..."] },
+            {"KING_ABYSS_05", ["Born of God and Void.", "Born of God, Void and Metal."] },
+            {"KING_ABYSS_FINAL_A", ["You shall seal the blinding light that plagues their dreams.", "You shall seal the deafening distortion that plagues their dreams."] },
+            {"KING_ABYSS_FINAL_C", ["You are the Hollow Knight.", "You are the Metal Knight."] },
             {"KNIGHT_STATUE_1", ["Not bug, nor beast, nor god.", "Not bug, nor beast, nor god... <page> But a vessel, with a Metal Heart."] },
             {"KNIGHT_STATUE_2", ["Void given form.", "Void given form due to Metal Heart."] },
             {"KNIGHT_STATUE_3", ["Void given focus.", "Void given Metal focus"] },
@@ -575,6 +578,7 @@ namespace MetalOST
         }
         private string ModHooks_LanguageGetHook(string key, string sheetTitle, string orig)
         {
+            Log($"found dialogue: {{\"{key}\", [\"{orig}]\", \"\"]}}");
             if (GlobalSettingsData.DoReplaceText)
             {
                 if (SteelSoulcustomDialogue.ContainsKey(key) && PlayerData.instance.GetInt("permadeathMode") == 1)

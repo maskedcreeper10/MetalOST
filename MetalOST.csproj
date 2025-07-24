@@ -146,6 +146,7 @@
     <None Remove="Resources\S18 Enemy Battle-02 LOOP.wav" />
     <None Remove="Resources\S19 Crossroads Main.wav" />
     <None Remove="Resources\S5 Green Path Main.wav" />
+    <None Remove="Resources\Test\audiofilesassetbundle" />
     <None Remove="Resources\Title.wav" />
     <None Remove="VideoFiles\FinalB.webm" />
     <None Remove="VideoFiles\FinalC.webm" />
