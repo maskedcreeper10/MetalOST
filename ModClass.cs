@@ -9,7 +9,6 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Video;
-using WavLib;
 
 
 
@@ -23,6 +22,7 @@ namespace MetalOST
 
         public bool ToggleButtonInsideMenu => true;
         private readonly Assembly assembly = Assembly.GetExecutingAssembly();
+        private Dictionary<string, AudioClip> AudioCache = new Dictionary<string, AudioClip>();
         private readonly List<string> BossList = [
             "S82-122 Grimm Epic Layer",
             "Hollow Shade Music", 
@@ -225,19 +225,27 @@ namespace MetalOST
         {
             Hook();
             instance = this;
-            using (Stream s = assembly.GetManifestResourceStream("MetalOST.Resources.Test.audioassetbundle"))
+            float starttime = Time.realtimeSinceStartup;
+            using (Stream s = assembly.GetManifestResourceStream("MetalOST.Resources.AssetBundles.audioassetbundle"))
             {
                 if (s != null)
                 {
                     AudioAssetBundle = AssetBundle.LoadFromStream(s);
                     if (AudioAssetBundle != null)
                     {
-                        Log("audioassetbundle is not null");
+                        Log("audioassetbundle made correctly");
+                        AudioClip[] cliplist = AudioAssetBundle.LoadAllAssets<AudioClip>();
+                        foreach (AudioClip clip in cliplist)
+                        {
+                            AudioCache.Add(clip.name, clip);
+                        }
+                        Log("Done making audiocache");
                     }
                     else Log("Audioassetbundle IS null");
                 }
                 else Log("DIDNT FIND S");
             }
+            Log($"Done constructing, time taken = {Time.realtimeSinceStartup - starttime}");
         }
         public static GlobalSettings GlobalSettingsData { get; set; } = new GlobalSettings();
         public void OnLoadGlobal(GlobalSettings gs)
@@ -311,7 +319,6 @@ namespace MetalOST
 
         public override void Initialize(Dictionary<string, Dictionary<string, GameObject>> preloadedObjects)
         {
-            Log("Initializing 1");
             Log("Initialized");
 
         }
@@ -319,7 +326,7 @@ namespace MetalOST
         private AudioClip GetAudioOrNull(string name)
         {
             //Handle which tracks are played setting
-            if (AudioAssetBundle.Contains(name))
+            if (AudioCache.ContainsKey(name))
             {
                 if (GlobalSettingsData.TracksToPlay == 1 && BossList.Contains(name) == false)
                 {
@@ -332,7 +339,7 @@ namespace MetalOST
                     return null;
                 }
                 if (GlobalSettingsData.TracksToPlay == 3) return null;
-                return AudioAssetBundle.LoadAsset<AudioClip>(name);
+                return AudioCache[name];
             }
             else
             {

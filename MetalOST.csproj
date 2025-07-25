@@ -27,13 +27,13 @@
     <MakeDir Directories="$(ExportDir)/$(TargetName)/zip/" />
     <MakeDir Condition="!Exists('$(HollowKnightRefs)/Mods/$(TargetName)/')" Directories="$(HollowKnightRefs)/Mods/$(TargetName)/" />
 
-    <Copy Condition="'$(DocumentationFile)' != ''" SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath);$(TargetDir)/WavLib.dll;$(TargetDir)/$(TargetName).xml" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
-    <Copy Condition="'$(DocumentationFile)' == ''" SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath);$(TargetDir)/WavLib.dll" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
+    <Copy Condition="'$(DocumentationFile)' != ''" SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath)$(TargetDir)/$(TargetName).xml" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
+    <Copy Condition="'$(DocumentationFile)' == ''" SourceFiles="$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath)" DestinationFolder="$(HollowKnightRefs)/Mods/$(TargetName)/" />
 
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/" />
     
-    <Copy Condition="'$(DocumentationFile)' != ''" SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath);$(TargetDir)/WavLib.dll;$(TargetDir)/$(TargetName).xml" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
-    <Copy Condition="'$(DocumentationFile)' == ''" SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath);$(TargetDir)/WavLib.dll" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy Condition="'$(DocumentationFile)' != ''" SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath);$(TargetDir)/$(TargetName).xml" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
+    <Copy Condition="'$(DocumentationFile)' == ''" SourceFiles="ReadMe.md;$(TargetPath);$(TargetDir)/$(TargetName).pdb;$(TargetPath)" DestinationFolder="$(ExportDir)/$(TargetName)/zip/" />
     
     <ZipDirectory SourceDirectory="$(ExportDir)/$(TargetName)/zip/" DestinationFile="$(ExportDir)/$(TargetName)/$(TargetName).zip" />
     <RemoveDir Directories="$(ExportDir)/$(TargetName)/zip/" />
@@ -59,7 +59,7 @@
     <None Remove="Resources\S18 Enemy Battle-02 LOOP.wav" />
     <None Remove="Resources\S19 Crossroads Main.wav" />
     <None Remove="Resources\S5 Green Path Main.wav" />
-    <None Remove="Resources\Test\audiofilesassetbundle" />
+    <None Remove="Resources\AssetBundles\audioassetbundle" />
     <None Remove="Resources\Title.wav" />
     <None Remove="VideoFiles\FinalB.webm" />
     <None Remove="VideoFiles\FinalC.webm" />
@@ -84,12 +84,7 @@
     </Content>
   </ItemGroup> 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\AudioFiles\S87-168 Nightmare Grimm Optional Ending.wav" />
-    <EmbeddedResource Include="Resources\AudioFiles\S87-168 Nightmare Grimm.wav" />
-    <EmbeddedResource Include="Resources\AudioFiles\Safety (grammaphone).wav" />
-    <EmbeddedResource Include="Resources\AudioFiles\Safety.wav" />
-    <EmbeddedResource Include="Resources\AudioFiles\Silent.wav" />
-    <EmbeddedResource Include="Resources\AudioFiles\Title.wav" />
+    <EmbeddedResource Include="Resources\AssetBundles\audioassetbundle" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
@@ -367,8 +362,5 @@
     <None Include=".gitignore" />
     <None Include="ReadMe.md" />
     <None Include="Resources\.gitignore" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WavLib" Version="1.0.12" />
   </ItemGroup>
 </Project>
