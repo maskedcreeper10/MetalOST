@@ -38,4 +38,4 @@ See the `LICENSE` file for more info.
 
 - All of the people in the RYS discord, which have helped a lot with design choices.
 
-- And of course **Team Cherry** and **Christopher Larkin** for making Hollow Knight and it's soundtrack. (Also... Silksong when?)
+- And of course **Team Cherry** and **Christopher Larkin** for making Hollow Knight and it's soundtrack. (Also... Silksong ~~when?~~ FINNALY!)
